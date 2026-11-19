@@ -15,7 +15,7 @@ class Students extends Model
         'jenis_kelamin',
         'tempat_lahir',
         'tanggal_lahir',
-        'nomor_kartu_keluarga',
+        'kk',
         'alamat',
         'telepon',
         'ayah_nama',

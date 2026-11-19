@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('jenis_kelamin')->comment('Laki-laki / Perempuan')->nullable();
             $table->string('tempat_lahir')->nullable();
             $table->date('tanggal_lahir')->nullable();
-            $table->string('nomor_kartu_keluarga')->nullable();
+            $table->string('kk')->nullable();
             $table->string('alamat')->nullable();
             $table->string('telepon')->nullable();
             $table->string('ayah_nama')->nullable();
