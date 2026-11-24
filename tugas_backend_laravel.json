@@ -1,0 +1,492 @@
+[
+  {
+    "id": "task-01-foundation-database",
+    "title": "Perbaikan Foundation Database",
+    "description": "Memastikan seluruh migration benar, konsisten, dapat dijalankan dari database kosong, dan tidak membuat foreign-key constraint.",
+    "assignee": null,
+    "status": "pending",
+    "priority": "high",
+    "order": 1,
+    "dependencies": [],
+    "checklist": [
+      {
+        "id": "task-01-c1",
+        "text": "Perbaiki seluruh migration yang terkait siswa, guru, tahun ajaran, rombel, dan relasi siswa-rombel",
+        "completed": false
+      },
+      {
+        "id": "task-01-c2",
+        "text": "Hapus foreign-key constraint dan gunakan naming strategy untuk kolom relasi",
+        "completed": false
+      },
+      {
+        "id": "task-01-c3",
+        "text": "Pastikan migration fresh berhasil dijalankan",
+        "completed": false
+      },
+      {
+        "id": "task-01-c4",
+        "text": "Perbaiki nama student_id pada student_sections",
+        "completed": false
+      }
+    ]
+  },
+  {
+    "id": "task-02-auth-response",
+    "title": "Autentikasi, Response, dan Middleware",
+    "description": "Menyiapkan autentikasi Sanctum, format response JSON, middleware, dan pembagian role API.",
+    "assignee": null,
+    "status": "pending",
+    "priority": "high",
+    "order": 2,
+    "dependencies": ["task-01-foundation-database"],
+    "checklist": [
+      {
+        "id": "task-02-c1",
+        "text": "Aktifkan autentikasi Sanctum pada endpoint API",
+        "completed": false
+      },
+      {
+        "id": "task-02-c2",
+        "text": "Buat format response sukses dan error yang konsisten",
+        "completed": false
+      },
+      {
+        "id": "task-02-c3",
+        "text": "Buat format pagination dan validation error",
+        "completed": false
+      },
+      {
+        "id": "task-02-c4",
+        "text": "Terapkan pembatasan role admin, kepala sekolah, guru/wali kelas, dan staff",
+        "completed": false
+      }
+    ]
+  },
+  {
+    "id": "task-03-academic-year",
+    "title": "CRUD Tahun Ajaran",
+    "description": "Mengimplementasikan seluruh operasi CRUD dan pengaktifan tahun ajaran.",
+    "assignee": null,
+    "status": "pending",
+    "priority": "high",
+    "order": 3,
+    "dependencies": ["task-01-foundation-database", "task-02-auth-response"],
+    "checklist": [
+      {
+        "id": "task-03-c1",
+        "text": "Implementasikan list, detail, create, update, dan delete tahun ajaran",
+        "completed": false
+      },
+      {
+        "id": "task-03-c2",
+        "text": "Implementasikan pengaktifan satu tahun ajaran",
+        "completed": false
+      },
+      {
+        "id": "task-03-c3",
+        "text": "Pastikan hanya satu tahun ajaran aktif",
+        "completed": false
+      },
+      {
+        "id": "task-03-c4",
+        "text": "Tambahkan validasi tanggal mulai dan tanggal selesai",
+        "completed": false
+      }
+    ]
+  },
+  {
+    "id": "task-04-student-crud",
+    "title": "CRUD Data Siswa",
+    "description": "Mengimplementasikan pengelolaan data siswa beserta pencarian, filter, sorting, dan pagination.",
+    "assignee": null,
+    "status": "pending",
+    "priority": "high",
+    "order": 4,
+    "dependencies": ["task-01-foundation-database", "task-02-auth-response"],
+    "checklist": [
+      {
+        "id": "task-04-c1",
+        "text": "Implementasikan list, detail, create, update, dan delete siswa",
+        "completed": false
+      },
+      {
+        "id": "task-04-c2",
+        "text": "Tambahkan pencarian berdasarkan nama, NIS, dan NISN",
+        "completed": false
+      },
+      {
+        "id": "task-04-c3",
+        "text": "Tambahkan filter jenis kelamin, asal sekolah, rombel, dan status",
+        "completed": false
+      },
+      {
+        "id": "task-04-c4",
+        "text": "Tambahkan pagination, sorting, soft delete, dan cast tanggal",
+        "completed": false
+      },
+      {
+        "id": "task-04-c5",
+        "text": "Validasi keunikan NIS dan NISN",
+        "completed": false
+      }
+    ]
+  },
+  {
+    "id": "task-05-student-excel-import",
+    "title": "Import Excel Siswa",
+    "description": "Mengimplementasikan impor file XLSX siswa berdasarkan sheet dan header Excel.",
+    "assignee": null,
+    "status": "pending",
+    "priority": "high",
+    "order": 5,
+    "dependencies": ["task-04-student-crud", "task-07-section-crud"],
+    "checklist": [
+      {
+        "id": "task-05-c1",
+        "text": "Validasi file XLSX wajib dan format file",
+        "completed": false
+      },
+      {
+        "id": "task-05-c2",
+        "text": "Petakan kolom Excel ke field model Student",
+        "completed": false
+      },
+      {
+        "id": "task-05-c3",
+        "text": "Baca nama sheet sebagai tingkat dan nama rombel",
+        "completed": false
+      },
+      {
+        "id": "task-05-c4",
+        "text": "Tangani duplikasi, data tidak valid, dan baris kosong",
+        "completed": false
+      },
+      {
+        "id": "task-05-c5",
+        "text": "Simpan siswa dan relasi rombel dalam transaksi",
+        "completed": false
+      },
+      {
+        "id": "task-05-c6",
+        "text": "Kembalikan ringkasan jumlah berhasil, dilewati, dan gagal",
+        "completed": false
+      }
+    ]
+  },
+  {
+    "id": "task-06-excel-template",
+    "title": "Template Import Excel",
+    "description": "Menyiapkan dan menyediakan template XLSX yang sesuai dengan format import siswa.",
+    "assignee": null,
+    "status": "pending",
+    "priority": "medium",
+    "order": 6,
+    "dependencies": ["task-04-student-crud", "task-07-section-crud"],
+    "checklist": [
+      {
+        "id": "task-06-c1",
+        "text": "Buat template XLSX dengan seluruh heading siswa",
+        "completed": false
+      },
+      {
+        "id": "task-06-c2",
+        "text": "Tambahkan sheet rombel untuk kelas 1 sampai 6",
+        "completed": false
+      },
+      {
+        "id": "task-06-c3",
+        "text": "Implementasikan endpoint template download",
+        "completed": false
+      },
+      {
+        "id": "task-06-c4",
+        "text": "Pastikan format template sesuai dengan StudentsImport",
+        "completed": false
+      }
+    ]
+  },
+  {
+    "id": "task-07-section-crud",
+    "title": "CRUD Rombel",
+    "description": "Mengimplementasikan pengelolaan rombel beserta tahun ajaran dan wali kelas.",
+    "assignee": null,
+    "status": "pending",
+    "priority": "high",
+    "order": 7,
+    "dependencies": ["task-03-academic-year", "task-09-employee-crud"],
+    "checklist": [
+      {
+        "id": "task-07-c1",
+        "text": "Implementasikan list, detail, create, update, dan delete rombel",
+        "completed": false
+      },
+      {
+        "id": "task-07-c2",
+        "text": "Hubungkan rombel dengan tahun ajaran",
+        "completed": false
+      },
+      {
+        "id": "task-07-c3",
+        "text": "Hubungkan rombel dengan wali kelas",
+        "completed": false
+      },
+      {
+        "id": "task-07-c4",
+        "text": "Validasi kombinasi tahun ajaran, tingkat, dan nama rombel",
+        "completed": false
+      }
+    ]
+  },
+  {
+    "id": "task-08-student-section",
+    "title": "Hubungan Siswa dan Rombel",
+    "description": "Mengimplementasikan penempatan siswa ke rombel dan riwayat status siswa.",
+    "assignee": null,
+    "status": "pending",
+    "priority": "high",
+    "order": 8,
+    "dependencies": ["task-04-student-crud", "task-07-section-crud"],
+    "checklist": [
+      {
+        "id": "task-08-c1",
+        "text": "Implementasikan penempatan siswa ke rombel",
+        "completed": false
+      },
+      {
+        "id": "task-08-c2",
+        "text": "Implementasikan riwayat rombel siswa",
+        "completed": false
+      },
+      {
+        "id": "task-08-c3",
+        "text": "Implementasikan update status relasi siswa-rombel",
+        "completed": false
+      },
+      {
+        "id": "task-08-c4",
+        "text": "Cegah siswa aktif memiliki dua rombel pada tahun ajaran yang sama",
+        "completed": false
+      },
+      {
+        "id": "task-08-c5",
+        "text": "Implementasikan penambahan dan penghapusan anggota rombel",
+        "completed": false
+      }
+    ]
+  },
+  {
+    "id": "task-09-employee-crud",
+    "title": "CRUD Data Guru",
+    "description": "Mengimplementasikan pengelolaan employee/guru beserta pencarian wali kelas.",
+    "assignee": null,
+    "status": "pending",
+    "priority": "high",
+    "order": 9,
+    "dependencies": ["task-01-foundation-database", "task-02-auth-response"],
+    "checklist": [
+      {
+        "id": "task-09-c1",
+        "text": "Implementasikan list, detail, create, update, dan delete guru",
+        "completed": false
+      },
+      {
+        "id": "task-09-c2",
+        "text": "Tambahkan filter kategori dan status aktif",
+        "completed": false
+      },
+      {
+        "id": "task-09-c3",
+        "text": "Sediakan endpoint guru yang tersedia untuk wali kelas",
+        "completed": false
+      },
+      {
+        "id": "task-09-c4",
+        "text": "Hubungkan guru dengan akun pengguna",
+        "completed": false
+      }
+    ]
+  },
+  {
+    "id": "task-10-promotion-status",
+    "title": "Kenaikan dan Status Siswa",
+    "description": "Mengimplementasikan preview dan penentuan status kenaikan atau kelulusan siswa.",
+    "assignee": null,
+    "status": "pending",
+    "priority": "high",
+    "order": 10,
+    "dependencies": ["task-08-student-section"],
+    "checklist": [
+      {
+        "id": "task-10-c1",
+        "text": "Buat preview kenaikan kelas",
+        "completed": false
+      },
+      {
+        "id": "task-10-c2",
+        "text": "Dukung aksi naik kelas, tinggal kelas, lulus, dan mutasi",
+        "completed": false
+      },
+      {
+        "id": "task-10-c3",
+        "text": "Simpan riwayat status siswa",
+        "completed": false
+      },
+      {
+        "id": "task-10-c4",
+        "text": "Pastikan perubahan status lama dilakukan dengan benar",
+        "completed": false
+      }
+    ]
+  },
+  {
+    "id": "task-11-promotion-execution",
+    "title": "Eksekusi dan Pembatalan Kenaikan Kelas",
+    "description": "Memproses kenaikan massal dalam transaksi database dan menyediakan mekanisme undo.",
+    "assignee": null,
+    "status": "pending",
+    "priority": "high",
+    "order": 11,
+    "dependencies": ["task-10-promotion-status"],
+    "checklist": [
+      {
+        "id": "task-11-c1",
+        "text": "Eksekusi kenaikan massal dalam satu transaksi database",
+        "completed": false
+      },
+      {
+        "id": "task-11-c2",
+        "text": "Buat relasi siswa ke rombel tujuan",
+        "completed": false
+      },
+      {
+        "id": "task-11-c3",
+        "text": "Simpan detail perubahan pada PromotionItem",
+        "completed": false
+      },
+      {
+        "id": "task-11-c4",
+        "text": "Implementasikan undo kenaikan kelas",
+        "completed": false
+      },
+      {
+        "id": "task-11-c5",
+        "text": "Kembalikan status dan relasi siswa saat proses dibatalkan",
+        "completed": false
+      }
+    ]
+  },
+  {
+    "id": "task-12-daily-notes",
+    "title": "Catatan Harian",
+    "description": "Mengimplementasikan CRUD catatan harian beserta filter siswa, rombel, guru, dan tanggal.",
+    "assignee": null,
+    "status": "pending",
+    "priority": "medium",
+    "order": 12,
+    "dependencies": ["task-04-student-crud", "task-07-section-crud", "task-09-employee-crud", "task-03-academic-year"],
+    "checklist": [
+      {
+        "id": "task-12-c1",
+        "text": "Implementasikan list, detail, create, update, dan delete catatan harian",
+        "completed": false
+      },
+      {
+        "id": "task-12-c2",
+        "text": "Tambahkan filter tanggal, siswa, rombel, guru, dan tahun ajaran",
+        "completed": false
+      },
+      {
+        "id": "task-12-c3",
+        "text": "Hubungkan catatan dengan siswa atau rombel",
+        "completed": false
+      },
+      {
+        "id": "task-12-c4",
+        "text": "Tambahkan soft delete dan pencatatan penulis",
+        "completed": false
+      }
+    ]
+  },
+  {
+    "id": "task-13-school-bell",
+    "title": "Bel Sekolah",
+    "description": "Mengimplementasikan pengelolaan jadwal bel sekolah dan pengujian jadwal.",
+    "assignee": null,
+    "status": "pending",
+    "priority": "medium",
+    "order": 13,
+    "dependencies": ["task-02-auth-response"],
+    "checklist": [
+      {
+        "id": "task-13-c1",
+        "text": "Implementasikan list, detail, create, update, dan delete jadwal bel",
+        "completed": false
+      },
+      {
+        "id": "task-13-c2",
+        "text": "Dukung hari, jam, durasi, tipe jadwal, dan pengecualian",
+        "completed": false
+      },
+      {
+        "id": "task-13-c3",
+        "text": "Implementasikan filter jadwal aktif",
+        "completed": false
+      },
+      {
+        "id": "task-13-c4",
+        "text": "Implementasikan endpoint test bel",
+        "completed": false
+      }
+    ]
+  },
+  {
+    "id": "task-14-testing-integration",
+    "title": "Pengujian dan Integrasi API",
+    "description": "Memvalidasi seluruh endpoint, relasi, autentikasi, import, dan proses kenaikan kelas.",
+    "assignee": null,
+    "status": "pending",
+    "priority": "high",
+    "order": 14,
+    "dependencies": [
+      "task-03-academic-year",
+      "task-04-student-crud",
+      "task-05-student-excel-import",
+      "task-06-excel-template",
+      "task-07-section-crud",
+      "task-08-student-section",
+      "task-09-employee-crud",
+      "task-10-promotion-status",
+      "task-11-promotion-execution",
+      "task-12-daily-notes",
+      "task-13-school-bell"
+    ],
+    "checklist": [
+      {
+        "id": "task-14-c1",
+        "text": "Buat feature test untuk seluruh endpoint",
+        "completed": false
+      },
+      {
+        "id": "task-14-c2",
+        "text": "Uji autentikasi, otorisasi, dan validation error",
+        "completed": false
+      },
+      {
+        "id": "task-14-c3",
+        "text": "Uji import Excel, relasi rombel, dan kenaikan kelas",
+        "completed": false
+      },
+      {
+        "id": "task-14-c4",
+        "text": "Pastikan seluruh route terdaftar dan format response konsisten",
+        "completed": false
+      },
+      {
+        "id": "task-14-c5",
+        "text": "Dokumentasikan contoh request dan response API",
+        "completed": false
+      }
+    ]
+  }
+]
