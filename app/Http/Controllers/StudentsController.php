@@ -2,30 +2,47 @@
 
 namespace App\Http\Controllers;
 
-use App\Imports\StudentsImport;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
-use Maatwebsite\Excel\Facades\Excel;
 
 class StudentsController extends Controller
 {
+    public function index(Request $request)
+    {
+        return response()->json(['message' => 'Success', 'data' => []]);
+    }
+
+    public function store(Request $request)
+    {
+        return response()->json(['message' => 'Success', 'data' => null], 201);
+    }
+
+    public function show(string $id)
+    {
+        return response()->json(['message' => 'Success', 'data' => null]);
+    }
+
+    public function update(Request $request, string $id)
+    {
+        return response()->json(['message' => 'Success', 'data' => null]);
+    }
+
+    public function destroy(string $id)
+    {
+        return response()->json(['message' => 'Success', 'data' => null]);
+    }
+
     public function import(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'file' => 'required|file|mimes:xlsx',
-        ]);
+        return response()->json(['message' => 'Success', 'data' => null]);
+    }
 
-        if ($validator->fails()) {
-            return response([
-                'message' => 'Validation failed',
-                'errors' => $validator->errors(),
-            ], 422);
-        }
+    public function sections(string $student)
+    {
+        return response()->json(['message' => 'Success', 'data' => []]);
+    }
 
-        Excel::import(new StudentsImport, $request->file('file'));
-
-        return response([
-            'message' => 'Import successful',
-        ]);
+    public function attachSection(Request $request, string $student)
+    {
+        return response()->json(['message' => 'Success', 'data' => null], 201);
     }
 }

@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('employees', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class)->nullable()->constrained()->cascadeOnDelete()->nullOnDelete();
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->string('nama_lengkap');
             $table->string('title_depan')->nullable();
             $table->string('title_belakang')->nullable();

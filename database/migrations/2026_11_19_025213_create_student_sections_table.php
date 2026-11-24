@@ -1,7 +1,5 @@
 <?php
 
-use App\Models\Section;
-use App\Models\Students;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('student_sections', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Students::class)->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(Section::class)->nullable()->constrained()->cascadeOnDelete();
+            $table->unsignedBigInteger('student_id');
+            $table->unsignedBigInteger('section_id')->nullable();
             $table->string('status')->comment('aktif / lulus / tinggal kelas / mutasi keluar / mutasi masuk / drop out')->nullable();
             $table->timestamps();
         });

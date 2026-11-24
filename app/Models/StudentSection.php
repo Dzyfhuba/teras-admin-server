@@ -2,17 +2,24 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Relations\Pivot;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class StudentSection extends Pivot
+class StudentSection extends Model
 {
-    public $incrementing = true;
-
-    public $timestamps = true;
-
     protected $fillable = [
-        'students_id',
+        'student_id',
         'section_id',
         'status',
     ];
+
+    public function student(): BelongsTo
+    {
+        return $this->belongsTo(Student::class);
+    }
+
+    public function section(): BelongsTo
+    {
+        return $this->belongsTo(Section::class);
+    }
 }

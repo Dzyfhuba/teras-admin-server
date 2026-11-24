@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name')->comment('2026/2027');
             $table->date('date_start')->nullable();
             $table->date('date_end')->nullable();
+            $table->boolean('is_active')->default(false);
             $table->timestamps();
             $table->softDeletes();
         });
