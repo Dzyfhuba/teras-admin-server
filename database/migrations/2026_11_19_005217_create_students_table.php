@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('nama_lengkap');
             $table->string('nis')->unique()->nullable();
             $table->string('asal_sekolah')->comment('TK / SD / SMP')->nullable();
-            $table->string('nisn')->nullable();
+            $table->string('nisn')->unique()->nullable();
             $table->string('nik')->nullable();
             $table->string('jenis_kelamin')->comment('Laki-laki / Perempuan')->nullable();
             $table->string('tempat_lahir')->nullable();
@@ -29,7 +29,7 @@ return new class extends Migration
             $table->string('ayah_pendidikan')->nullable();
             $table->string('ayah_pekerjaan')->nullable();
             $table->string('ayah_tempat_lahir')->nullable();
-            $table->string('ayah_tanggal_lahir')->nullable();
+            $table->date('ayah_tanggal_lahir')->nullable();
             $table->string('ayah_penghasilan')->nullable();
             $table->string('ayah_telepon')->nullable();
             $table->string('ibu_nama')->nullable();
@@ -37,7 +37,7 @@ return new class extends Migration
             $table->string('ibu_pendidikan')->nullable();
             $table->string('ibu_pekerjaan')->nullable();
             $table->string('ibu_tempat_lahir')->nullable();
-            $table->string('ibu_tanggal_lahir')->nullable();
+            $table->date('ibu_tanggal_lahir')->nullable();
             $table->string('ibu_penghasilan')->nullable();
             $table->string('ibu_telepon')->nullable();
             $table->string('wali_nama')->nullable();
@@ -45,7 +45,7 @@ return new class extends Migration
             $table->string('wali_pendidikan')->nullable();
             $table->string('wali_pekerjaan')->nullable();
             $table->string('wali_tempat_lahir')->nullable();
-            $table->string('wali_tanggal_lahir')->nullable();
+            $table->date('wali_tanggal_lahir')->nullable();
             $table->string('wali_penghasilan')->nullable();
             $table->string('wali_telepon')->nullable();
             $table->timestamps();

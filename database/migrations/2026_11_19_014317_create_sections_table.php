@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('name')->comment('Al Fajr, Ad Dhuha, ddl. tanpa angka, grade sudah ada kolomnya');
             $table->unsignedBigInteger('wali_kelas_id')->nullable();
             $table->timestamps();
+            $table->unique(['academic_year_id', 'grade', 'name']);
         });
     }
 
