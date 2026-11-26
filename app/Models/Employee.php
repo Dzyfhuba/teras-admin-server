@@ -2,7 +2,10 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -36,7 +39,7 @@ class Employee extends Model
         'is_active' => 'boolean',
     ];
 
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
@@ -54,5 +57,32 @@ class Employee extends Model
     public function promotions(): HasMany
     {
         return $this->hasMany(Promotion::class);
+    }
+
+    #[Scope]
+    protected function active(Builder $query): Builder
+    {
+        return $query->where('is_active', true);
+    }
+
+    #[Scope]
+    protected function ofCategory(Builder $query, string $category): Builder
+    {
+        return $query->where('category', $category);
+    }
+
+    #[Scope]
+    protected function search(Builder $query, string $term): Builder
+    {
+        $like = "%{$term}%";
+
+        return $query->where(function (Builder $builder) use ($like): void {
+            $builder->where('nama_lengkap', 'like', $like)
+                ->orWhere('nik', 'like', $like)
+                ->orWhere('nip', 'like', $like)
+                ->orWhere('nuptk', 'like', $like)
+                ->orWhere('niy', 'like', $like)
+                ->orWhere('jabatan', 'like', $like);
+        });
     }
 }
