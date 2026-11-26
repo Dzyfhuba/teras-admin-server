@@ -1,35 +1,71 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Backend Administrasi Sekolah
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Backend ini adalah aplikasi Laravel untuk menyediakan API administrasi sekolah. API mencakup pengelolaan siswa, tahun ajaran, rombongan belajar (rombel), relasi dan status siswa, data guru/pegawai, kenaikan kelas, catatan harian, dan bel sekolah. Fitur pendukungnya meliputi impor data siswa dari Excel dan template impor.
 
-## About Laravel
+Endpoint API berada di prefix `/api` dan didefinisikan di `routes/api.php`. Autentikasi endpoint pengguna menggunakan Laravel Sanctum.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Persyaratan
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- PHP 8.3 atau lebih baru beserta ekstensi PHP yang dibutuhkan Laravel.
+- Composer.
+- Node.js 24.12 atau lebih baru dan npm.
+- Git.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Konfigurasi bawaan memakai SQLite. MySQL atau MariaDB juga dapat digunakan dengan mengubah konfigurasi database di `.env`.
 
-## Learning Laravel
+## Instalasi dan Menjalankan Aplikasi
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Jalankan perintah berikut dari direktori proyek di PowerShell:
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+```powershell
+composer run setup
+```
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+Script `setup` akan memasang dependency PHP dan JavaScript, membuat `.env` dari `.env.example` jika belum ada, membuat `APP_KEY`, menjalankan migrasi database, dan membangun aset frontend. Dengan konfigurasi bawaan, database SQLite berada di `database/database.sqlite`.
 
+Setelah setup selesai, jalankan server Laravel:
 
-## License
+```powershell
+php artisan serve
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Buka `http://127.0.0.1:8000`. Endpoint API tersedia pada alamat yang sama dengan prefix `/api`, misalnya `http://127.0.0.1:8000/api/students`.
+
+Untuk pengembangan aset frontend dengan hot reload, jalankan perintah berikut di terminal terpisah:
+
+```powershell
+npm run dev
+```
+
+Jika menggunakan MySQL atau MariaDB, buat database terlebih dahulu, atur `DB_CONNECTION`, `DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME`, dan `DB_PASSWORD` di `.env`, lalu jalankan:
+
+```powershell
+php artisan migrate
+```
+
+Jangan membagikan atau meng-commit `.env` maupun credential database.
+
+## Menjalankan Pengujian
+
+```powershell
+php artisan test
+```
+
+## Daftar Task dan Kontributor
+
+Checklist di bawah mengikuti urutan task. Kotak yang belum dicentang menunjukkan status penyelesaian belum dicatat di README.
+
+- [ ] **task-01-foundation-database** — Perbaikan Foundation Database — M Ferdli
+- [ ] **task-02-auth-response** — Autentikasi, Response, dan Middleware — Muhammad Alyan
+- [ ] **task-03-academic-year** — CRUD Tahun Ajaran — Muh Tegar R
+- [ ] **task-04-student-crud** — CRUD Data Siswa — Ahmad Farrel
+- [ ] **task-05-student-excel-import** — Import Excel Siswa — Muhammad Ilham R
+- [ ] **task-06-excel-template** — Template Import Excel — Azzahra Nabila
+- [ ] **task-07-section-crud** — CRUD Rombel — Mutiara Mawar
+- [ ] **task-08-student-section** — Hubungan Siswa dan Rombel — Vidya Sulton
+- [ ] **task-09-employee-crud** — CRUD Data Guru — Haydar Yahya
+- [ ] **task-10-promotion-status** — Kenaikan dan Status Siswa — Ardia Rahma
+- [ ] **task-11-promotion-execution** — Eksekusi dan Pembatalan Kenaikan Kelas — Annisa Salsa
+- [ ] **task-12-daily-notes** — Catatan Harian — Ardika Ikbar
+- [ ] **task-13-school-bell** — Bel Sekolah — Faidlur Rizqi
+- [ ] **task-14-testing-integration** — Pengujian dan Integrasi API — Hafidz Ubaidillah

@@ -58,50 +58,30 @@ firebase use --add
 
 Firebase CLI tidak menyediakan perintah impor JSON mentah yang langsung memakai setiap field `id` sebagai document ID. Gunakan Node.js dan Firebase Admin untuk impor aman.
 
-## Contoh Script Node.js
+## Impor Menggunakan Script Node.js
 
-Simpan script sebagai file sementara, misalnya `import_tasks.js`, lalu jalankan:
+Script `import_task.js` dan dependency `firebase-admin` sudah tersedia di root
+project. Script menggunakan ES modules sesuai konfigurasi `package.json`.
 
-```js
-const admin = require("firebase-admin");
-const fs = require("fs");
-
-admin.initializeApp({
-  credential: admin.credential.applicationDefault(),
-});
-
-const db = admin.firestore();
-const tasks = JSON.parse(
-  fs.readFileSync("tugas_backend_laravel.json", "utf8")
-);
-
-(async () => {
-  const batch = db.batch();
-
-  tasks.forEach((task) => {
-    const documentRef = db.collection("tasks").doc(task.id);
-    batch.set(documentRef, task, { merge: true });
-  });
-
-  await batch.commit();
-  console.log(`Berhasil mengimpor ${tasks.length} tugas`);
-})();
-```
-
-Jalankan dengan:
+Jalankan dari root project setelah dependency terpasang dan credential service
+account sudah disiapkan:
 
 ```sh
-npm install firebase-admin
+npm install
 export GOOGLE_APPLICATION_CREDENTIALS="/absolute/path/service-account.json"
-node import_tasks.js
+node import_task.js
 ```
 
-Untuk PowerShell, set credential menggunakan:
+Di PowerShell:
 
 ```powershell
-$env:GOOGLE_APPLICATION_CREDENTIALS="D:\absolute\path\service-account.json"
-node import_tasks.js
+$env:GOOGLE_APPLICATION_CREDENTIALS=(Resolve-Path .\service-account.json).Path
+node .\import_task.js
 ```
+
+Pastikan service account memiliki izin menulis ke Firestore pada project yang
+benar. Credential hanya disetel di terminal aktif dan jangan commit file
+service account ke repository.
 
 ## Aturan Penting
 
