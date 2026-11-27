@@ -29,7 +29,7 @@ return new class extends Migration
             $table->string('telepon')->nullable();
             $table->string('pendidikan_terakhir')->nullable()->comment('SD / SMP / SMA / S1 / S2 / S3');
             $table->string('jabatan')->nullable()->comment('Guru / Kepala Sekolah / Staff / dll');
-            $table->date('tmt_jabatan')->nullable()->comment('Tanggal Mulai Tugas Jabatan');
+            $table->string('tmt_jabatan')->nullable()->comment('Tanggal Mulai Tugas Jabatan');
             $table->boolean('is_active')->default(true)->comment('Apakah masih aktif bekerja?');
             $table->timestamps();
             $table->softDeletes();
