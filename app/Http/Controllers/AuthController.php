@@ -47,15 +47,11 @@ class AuthController extends Controller
 
     public function me(Request $request): JsonResponse
     {
-        /** @var User $user */
         $user = $request->user();
 
         return $this->successResponse($this->formatUser($user), 'Data pengguna berhasil diambil');
     }
 
-    /**
-     * @return array{id: int, name: string, email: string, role: string}
-     */
     private function formatUser(User $user): array
     {
         $role = $user->role instanceof UserRole ? $user->role->value : (string) $user->role;

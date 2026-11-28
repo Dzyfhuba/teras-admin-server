@@ -23,7 +23,6 @@ Route::middleware('auth:sanctum')->group(function (): void {
         return $request->user();
     });
 
-    // Read-only endpoints & daily notes: accessible by all authenticated roles.
     Route::middleware('role:admin,kepala_sekolah,guru,staff')->group(function (): void {
         Route::get('/students/import/template', [StudentsImportTemplateController::class, 'download']);
         Route::get('/students/{student}/sections', [StudentsController::class, 'sections']);
@@ -46,7 +45,6 @@ Route::middleware('auth:sanctum')->group(function (): void {
         Route::apiResource('promotions', PromotionController::class)->only(['index', 'show']);
     });
 
-    // Administration write operations: admin, kepala sekolah, and staff.
     Route::middleware('role:admin,kepala_sekolah,staff')->group(function (): void {
         Route::post('/students/import', [StudentsController::class, 'import']);
         Route::post('/students/{student}/sections', [StudentsController::class, 'attachSection']);
@@ -68,7 +66,6 @@ Route::middleware('auth:sanctum')->group(function (): void {
         Route::post('/school-bells/{school_bell}/test', [SchoolBellController::class, 'test']);
     });
 
-    // High-privilege operations: admin and kepala sekolah only.
     Route::middleware('role:admin,kepala_sekolah')->group(function (): void {
         Route::delete('/students/{student}', [StudentsController::class, 'destroy']);
 
