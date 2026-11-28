@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AcademicYearController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DailyNoteController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\PromotionController;
@@ -12,35 +13,67 @@ use App\Http\Controllers\StudentsImportTemplateController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+Route::post('/login', [AuthController::class, 'login']);
 
-Route::post('/students/import', [StudentsController::class, 'import']);
-Route::get('/students/import/template', [StudentsImportTemplateController::class, 'download']);
-Route::get('/students/{student}/sections', [StudentsController::class, 'sections']);
-Route::post('/students/{student}/sections', [StudentsController::class, 'attachSection']);
-Route::apiResource('students', StudentsController::class);
+Route::middleware('auth:sanctum')->group(function (): void {
+    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::get('/me', [AuthController::class, 'me']);
 
-Route::apiResource('academic-years', AcademicYearController::class);
-Route::post('/academic-years/{academic_year}/activate', [AcademicYearController::class, 'activate']);
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
 
-Route::apiResource('sections', SectionController::class);
-Route::get('/sections/{section}/students', [SectionController::class, 'students']);
-Route::post('/sections/{section}/students', [SectionController::class, 'attachStudents']);
-Route::delete('/sections/{section}/students/{student}', [SectionController::class, 'detachStudent']);
+    // Read-only endpoints & daily notes: accessible by all authenticated roles.
+    Route::middleware('role:admin,kepala_sekolah,guru,staff')->group(function (): void {
+        Route::get('/students/import/template', [StudentsImportTemplateController::class, 'download']);
+        Route::get('/students/{student}/sections', [StudentsController::class, 'sections']);
+        Route::apiResource('students', StudentsController::class)->only(['index', 'show']);
 
-Route::apiResource('student-sections', StudentSectionController::class);
-Route::patch('/student-sections/{student_section}/status', [StudentSectionController::class, 'updateStatus']);
+        Route::apiResource('academic-years', AcademicYearController::class)->only(['index', 'show']);
 
-Route::get('/employees/available-for-homeroom', [EmployeeController::class, 'availableForHomeroom']);
-Route::apiResource('employees', EmployeeController::class);
+        Route::get('/sections/{section}/students', [SectionController::class, 'students']);
+        Route::apiResource('sections', SectionController::class)->only(['index', 'show']);
 
-Route::apiResource('school-bells', SchoolBellController::class);
-Route::post('/school-bells/{school_bell}/test', [SchoolBellController::class, 'test']);
+        Route::apiResource('student-sections', StudentSectionController::class)->only(['index', 'show']);
 
-Route::apiResource('daily-notes', DailyNoteController::class);
+        Route::get('/employees/available-for-homeroom', [EmployeeController::class, 'availableForHomeroom']);
+        Route::apiResource('employees', EmployeeController::class)->only(['index', 'show']);
 
-Route::apiResource('promotions', PromotionController::class);
-Route::post('/promotions/preview', [PromotionController::class, 'preview']);
-Route::post('/promotions/{promotion}/undo', [PromotionController::class, 'undo']);
+        Route::apiResource('school-bells', SchoolBellController::class)->only(['index', 'show']);
+
+        Route::apiResource('daily-notes', DailyNoteController::class);
+
+        Route::apiResource('promotions', PromotionController::class)->only(['index', 'show']);
+    });
+
+    // Administration write operations: admin, kepala sekolah, and staff.
+    Route::middleware('role:admin,kepala_sekolah,staff')->group(function (): void {
+        Route::post('/students/import', [StudentsController::class, 'import']);
+        Route::post('/students/{student}/sections', [StudentsController::class, 'attachSection']);
+        Route::apiResource('students', StudentsController::class)->only(['store', 'update']);
+
+        Route::apiResource('academic-years', AcademicYearController::class)->only(['store', 'update', 'destroy']);
+        Route::post('/academic-years/{academic_year}/activate', [AcademicYearController::class, 'activate']);
+
+        Route::apiResource('sections', SectionController::class)->only(['store', 'update', 'destroy']);
+        Route::post('/sections/{section}/students', [SectionController::class, 'attachStudents']);
+        Route::delete('/sections/{section}/students/{student}', [SectionController::class, 'detachStudent']);
+
+        Route::apiResource('student-sections', StudentSectionController::class)->only(['store', 'update', 'destroy']);
+        Route::patch('/student-sections/{student_section}/status', [StudentSectionController::class, 'updateStatus']);
+
+        Route::apiResource('employees', EmployeeController::class)->only(['store', 'update', 'destroy']);
+
+        Route::apiResource('school-bells', SchoolBellController::class)->only(['store', 'update', 'destroy']);
+        Route::post('/school-bells/{school_bell}/test', [SchoolBellController::class, 'test']);
+    });
+
+    // High-privilege operations: admin and kepala sekolah only.
+    Route::middleware('role:admin,kepala_sekolah')->group(function (): void {
+        Route::delete('/students/{student}', [StudentsController::class, 'destroy']);
+
+        Route::apiResource('promotions', PromotionController::class)->only(['store', 'update', 'destroy']);
+        Route::post('/promotions/preview', [PromotionController::class, 'preview']);
+        Route::post('/promotions/{promotion}/undo', [PromotionController::class, 'undo']);
+    });
+});
