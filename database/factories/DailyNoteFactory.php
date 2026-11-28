@@ -18,7 +18,15 @@ class DailyNoteFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'student_id' => null,
+            'section_id' => null,
+            'employee_id' => null,
+            'academic_year_id' => null,
+            'date' => fake()->date(),
+            'title' => fake()->sentence(4),
+            'content' => fake()->paragraph(),
+            'category' => fake()->randomElement(['akademik', 'perilaku', 'kehadiran', 'kesehatan']),
+            'status' => fake()->randomElement(['terbuka', 'ditindaklanjuti', 'selesai']),
         ];
     }
 }
